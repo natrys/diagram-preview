@@ -2,7 +2,7 @@
 
 *** diagram-preview-mode
 
-A small minor mode to show preview of diagrams while working with popular text-based diagram/graph creating tools inside Emacs. Currently works in:
+A small minor mode to show preview of diagrams while working with popular text-based diagram/graph creating tools inside Emacs, without requiring respective toolchains to be locally available. Currently works in:
 
 + graphviz-dot-mode
 + plantuml-mode
@@ -25,4 +25,4 @@ Clone this repo somewhere and then do something like:
   :hook ((graphviz-dot-mode plantuml-mode mermaid-mode) . diagram-preview-mode))
 #+end_src
 
-Show preview of your current file by calling =diagram-preview-show= (bound to =C-c C-p=).
+See preview of your current file by calling =diagram-preview-show= (bound to =C-c C-p=).
