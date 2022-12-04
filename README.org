@@ -1,0 +1,28 @@
+#+STARTUP: showeverything
+
+*** diagram-preview-mode
+
+A small minor mode to show preview of diagrams while working with popular text-based diagram/graph creating tools inside Emacs. Currently works in:
+
++ graphviz-dot-mode
++ plantuml-mode
++ mermaid-mode
+
+**** Disclaimer
+
+Under the hood it simply uses the awesome [[https://kroki.io/][kroki]] that provides a unified API for many different backends, along with free access to their own hosted instance.
+
+Sending private code over the wire to 3rd party server might not be your palate, so beware. Note that kroki itself is FOSS and self-hostable, so you could run your own instance and point to that.
+
+**** Install and Usage
+
+Clone this repo somewhere and then do something like:
+
+#+begin_src elisp
+(use-package diagram-preview
+  :load-path "/path/to/diagram-preview/"
+  :ensure nil
+  :hook ((graphviz-dot-mode plantuml-mode mermaid-mode) . diagram-preview-mode))
+#+end_src
+
+Show preview of your current file by calling =diagram-preview-show= (bound to =C-c C-p=).
