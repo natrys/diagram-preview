@@ -95,6 +95,7 @@
                         (diagram-preview--reload-buffer)
                         (message nil)))))
 
+;;;###autoload
 (define-minor-mode diagram-preview-mode
   "Minor mode to show diagram preview for modes like graphviz, plantuml etc."
   :lighter " diagram "
