@@ -38,7 +38,8 @@
   "Show diagram preview for modes like graphviz, plantuml etc."
   :group 'convenience)
 
-(defcustom diagram-preview-file "/tmp/preview-diagram.png"
+(defcustom diagram-preview-file (concat (temporary-file-directory)
+                                        "preview-diagram.png")
   "File on disk where diagram is saved before being previewed"
   :type 'string
   :group 'diagram-preview)
@@ -103,4 +104,4 @@
             (define-key map (kbd "C-c C-p") #'diagram-preview-show)
             map))
 
-(provide 'diagram-preview-mode)
+(provide 'diagram-preview)
