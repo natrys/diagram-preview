@@ -3,7 +3,7 @@
 ;; Copyright (C) 2022 Imran Khan.
 
 ;; Author: Imran Khan <contact@imrankhan.live>
-;; URL: https://github.com/natrys/diagram
+;; URL: https://github.com/natrys/diagram-preview
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1"))
 
