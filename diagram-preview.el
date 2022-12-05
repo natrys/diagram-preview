@@ -38,37 +38,58 @@
   "Show diagram preview for modes like graphviz, plantuml etc."
   :group 'convenience)
 
-(defcustom diagram-preview-file (concat (temporary-file-directory)
-                                        "preview-diagram.png")
-  "File on disk where diagram is saved before being previewed"
-  :type 'string
-  :group 'diagram-preview)
-
 (defcustom diagram-preview-instance-url "https://kroki.io"
   "The API endpoint for running kroki instance"
   :type 'string
   :group 'diagram-preview)
+
+(defvar diagram-preview--image-type
+  (if (image-type-available-p 'svg)
+      'svg
+    'png)
+  "Which image format to show preview in.
+
+Most kroki backends support exporting to SVG, and Emacs has baked in
+support for it since 27.1 (or even before using external tools), so
+SVG working out of the box is a pretty safe bet.")
+
+(defvar diagram-preview--file
+  (concat (temporary-file-directory)
+          "diagram-preview"
+          "." (symbol-name diagram-preview--image-type))
+  "Location on disk where preview image is saved before being shown.")
 
 (defun diagram-preview--api-type ()
   (pcase major-mode
     ('mermaid-mode "mermaid")
     ('plantuml-mode "plantuml")
     ('graphviz-dot-mode "graphviz")
-    (_ (throw 'error "unknown format"))))
+    ('pikchr-mode "pikchr")
+    ('clojure-mode "bytefield")
+    ('js-json-mode "vegalite")
+    (_ (throw 'error "cannot do anything useful in this mode"))))
 
 (defun diagram-preview--api-endpoint ()
-  (format "%s%s/"
-          (file-name-as-directory diagram-preview-instance-url)
-          (diagram-preview--api-type)))
+  (let ((base (if (eq diagram-preview--image-type 'svg)
+                  "%s%s/svg/"
+                "%s%s/")))
+    (format base
+            (file-name-as-directory diagram-preview-instance-url)
+            (diagram-preview--api-type))))
 
 (defun diagram-preview--reload-buffer ()
-  (with-current-buffer (or (get-file-buffer diagram-preview-file)
-                           (find-file-noselect diagram-preview-file))
+  (with-current-buffer (or (get-file-buffer diagram-preview--file)
+                           (find-file-noselect diagram-preview--file))
     (unless (eq major-mode 'image-mode)
       (image-mode)
       (set-buffer-multibyte t))
     (revert-buffer t t t)
     (display-buffer (current-buffer))))
+
+(defun diagram-preview--accept-header ()
+  (pcase diagram-preview--image-type
+    ('svg "image/svg+xml")
+    ('png "image/png")))
 
 (defun diagram-preview-show ()
   "Show preview of diagram for graphviz, plantuml or mermaid.js"
@@ -76,8 +97,8 @@
   (let ((url (diagram-preview--api-endpoint))
         (url-request-method "POST")
         (url-request-extra-headers '(("Content-Type" . "text/plain")))
-        (url-mime-accept-string "image/png")
-        (url-user-agent "Emacs")
+        (url-mime-accept-string (diagram-preview--accept-header))
+        (url-user-agent "Emacs (https://github.com/natrys/diagram-preview)")
         (url-request-data
          (encode-coding-string
           (buffer-substring-no-properties (point-min) (point-max))
@@ -91,8 +112,8 @@
                               (write-region-post-annotation-function nil))
                           (write-region
                            (+ 1 (point)) (point-max)
-                           diagram-preview-file nil :silent))
-                        (clear-image-cache diagram-preview-file)
+                           diagram-preview--file nil :silent))
+                        (clear-image-cache diagram-preview--file)
                         (diagram-preview--reload-buffer)
                         (message nil)))))
 

@@ -2,11 +2,14 @@
 
 *** diagram-preview-mode
 
-A small minor mode to show preview of diagrams while working with popular text-based diagram/graph creating tools inside Emacs, without requiring respective toolchains to be locally available. Currently works in:
+A small minor mode to show preview of diagrams while working with popular text-based diagram/graph creating tools inside Emacs, without requiring respective toolchains to be locally installed. Currently works in:
 
-+ graphviz-dot-mode
-+ plantuml-mode
-+ mermaid-mode
++ [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]]
++ [[https://github.com/skuro/plantuml-mode][plantuml-mode]]
++ [[https://github.com/abrochard/mermaid-mode][mermaid-mode]]
++ [[https://github.com/kljohann/pikchr-mode][pikchr-mode]]
++ clojure-mode (presumes [[https://bytefield-svg.deepsymmetry.org/bytefield-svg/1.7.0/intro.html][bytefield]])
++ js-json-mode (presumes [[https://vega.github.io/vega-lite/][vega-lite]])
 
 **** Disclaimer
 
@@ -22,7 +25,7 @@ Clone this repo somewhere and then do something like:
 (use-package diagram-preview
   :load-path "/path/to/diagram-preview/"
   :ensure nil
-  :hook ((graphviz-dot-mode plantuml-mode mermaid-mode) . diagram-preview-mode))
+  :hook ((graphviz-dot-mode plantuml-mode mermaid-mode pikchr-mode) . diagram-preview-mode))
 #+end_src
 
 See preview of your current file by calling =diagram-preview-show= (bound to =C-c C-p=).
