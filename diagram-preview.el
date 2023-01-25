@@ -1,10 +1,10 @@
-;;; diagram-preview.el -*- lexical-binding: t -*-
+;;; diagram-preview.el --- Show preview of diagrams -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Imran Khan.
 
 ;; Author: Imran Khan <contact@imrankhan.live>
 ;; URL: https://github.com/natrys/diagram-preview
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Package-Requires: ((emacs "27.1"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -39,7 +39,7 @@
   :group 'convenience)
 
 (defcustom diagram-preview-instance-url "https://kroki.io"
-  "The API endpoint for running kroki instance"
+  "The API endpoint for running kroki instance."
   :type 'string
   :group 'diagram-preview)
 
@@ -65,6 +65,7 @@ SVG working out of the box is a pretty safe bet.")
     ('plantuml-mode "plantuml")
     ('graphviz-dot-mode "graphviz")
     ('pikchr-mode "pikchr")
+    ('d2-mode "d2")
     ('clojure-mode "bytefield")
     ('js-json-mode "vegalite")
     (_ (throw 'error "cannot do anything useful in this mode"))))
@@ -92,7 +93,7 @@ SVG working out of the box is a pretty safe bet.")
     ('png "image/png")))
 
 (defun diagram-preview-show ()
-  "Show preview of diagram for graphviz, plantuml or mermaid.js"
+  "Show preview of diagram for graphviz, plantuml or mermaid.js."
   (interactive)
   (let ((url (diagram-preview--api-endpoint))
         (url-request-method "POST")
@@ -126,3 +127,4 @@ SVG working out of the box is a pretty safe bet.")
             map))
 
 (provide 'diagram-preview)
+;;; diagram-preview.el ends here

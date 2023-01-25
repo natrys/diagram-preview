@@ -8,6 +8,7 @@ A small minor mode to show preview of diagrams while working with popular text-b
 + [[https://github.com/skuro/plantuml-mode][plantuml-mode]]
 + [[https://github.com/abrochard/mermaid-mode][mermaid-mode]]
 + [[https://github.com/kljohann/pikchr-mode][pikchr-mode]]
++ [[https://github.com/andorsk/d2-mode][d2-mode]]
 + clojure-mode (presumes [[https://bytefield-svg.deepsymmetry.org/bytefield-svg/1.7.0/intro.html][bytefield]])
 + js-json-mode (presumes [[https://vega.github.io/vega-lite/][vega-lite]])
 
@@ -25,12 +26,7 @@ Clone this repo somewhere and then do something like:
 (use-package diagram-preview
   :load-path "/path/to/diagram-preview/"
   :ensure nil
-  :hook ((graphviz-dot-mode plantuml-mode mermaid-mode pikchr-mode) . diagram-preview-mode))
+  :hook ((graphviz-dot-mode plantuml-mode mermaid-mode pikchr-mode d2-mode) . diagram-preview-mode))
 #+end_src
 
 See preview of your current file by calling =diagram-preview-show= (bound to =C-c C-p=).
-
-**** Ideas
-
-+ Add more modes and backends from what's supported by kroki
-+ Support svg (and prefer it to png when makes sense)
